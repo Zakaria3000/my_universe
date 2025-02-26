@@ -8,9 +8,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
-
     <style>
+        /* Styles existants */
         * {
             margin: 0;
             padding: 0;
@@ -297,13 +296,6 @@
             80% { clip: rect(87px, 900px, 32px, 0); }
             100% { clip: rect(10px, 900px, 41px, 0); }
         }
-
-        @keyframes scan {
-            0% { top: 0%; }
-            100% { top: 100%; }
-        }
-
-        /* Animations pour les éléments holographiques */
         .holo-ring {
             position: absolute;
             border-radius: 50%;
@@ -311,11 +303,15 @@
             animation: holo-rotate 20s linear infinite;
         }
 
-        @keyframes holo-rotate {
+                @keyframes holo-rotate {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
         #interaction-help {
             position: fixed;
             top: 20px;
@@ -331,25 +327,91 @@
             transform: translateY(20px);
         }
 
-        /* Responsive design */
+
+        /* Responsive Design */
         @media (max-width: 768px) {
             #profile-panel {
-                width: 250px;
+                width: 90%;
+                left: 5%;
+                top: 10px;
             }
-            #detail-panel {
-                width: 90vw;
+            #nav-panel {
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+                bottom: 10px;
+                width: 90%;
+                left: 5%;
+                transform: translateX(0);
             }
             .nav-button {
-                min-width: 80px;
+                width: 100%;
+                padding: 10px;
                 font-size: 12px;
-                padding: 6px 10px;
+            }
+            #detail-panel {
+                width: 95%;
+                max-width: 95%;
+                left: 2.5%;
+                transform: translateX(0) translateY(0);
+                top: 10px;
+                max-height: 90vh;
+            }
+            .section-title {
+                font-size: 18px;
+            }
+            .interface-element {
+                padding: 10px;
+            }
+            .skill-bar {
+                height: 3px;
+            }
+            #welcome-message {
+                width: 90%;
+                left: 5%;
+                padding: 10px;
+            }
+            #welcome-message h1 {
+                font-size: 24px;
+            }
+            #welcome-message p {
+                font-size: 14px;
+            }
+            #loading-text {
+                font-size: 18px;
+            }
+            .holo-ring {
+                display: none;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            #profile-panel {
+                width: 80%;
+                left: 10%;
+            }
+            #nav-panel {
+                width: 80%;
+                left: 10%;
+            }
+            #detail-panel {
+                width: 90%;
+                left: 5%;
+            }
+            .section-title {
+                font-size: 20px;
+            }
+            .interface-element {
+                padding: 15px;
+            }
+            .skill-bar {
+                height: 4px;
             }
         }
     </style>
 </head>
 <body>
     <div id="loading-screen">
-
         <div id="loading-text" class="glitch" data-text="INITIALISATION DU SYSTÈME">INITIALISATION DU SYSTÈME</div>
         <div id="loading-bar-container">
             <div id="loading-bar"></div>
@@ -357,7 +419,7 @@
         <div id="loading-percentage">0%</div>
     </div>
     <div id="ui-container">
-          <div id="welcome-message" class="interface-element">
+        <div id="welcome-message" class="interface-element">
             <h1 class="welcome-title holographic-text">ZAKARIA AKKAOUI</h1>
             <p class="welcome-description">Bienvenue dans mon univers numérique. Je suis un développeur fullstack passionné par la création d'expériences web immersives et innovantes. Explorez mon portfolio interactif pour découvrir mes compétences, projets et expériences.</p>
             <button id="enter-button" class="nav-button">
@@ -365,57 +427,49 @@
             </button>
         </div>
 
-<div id="profile-panel" class="interface-element">
-    <h2 class="holographic-text section-title">PROFIL</h2>
-    <div class="scanner"></div>
-    <p style="margin-bottom: 15px;">
-    Élève-Ingénieur en génie informatique et Master 2 en intelligence artificielle, je suis passionné par les technologies de l'information et le développement de solutions logicielles innovantes.
-    Fort de compétences solides en programmation, en développement web et en intelligence artificielle, je mets mon expertise
-    au service de projets ambitieux pour créer des systèmes intelligents et performants.
-</p>
+        <div id="profile-panel" class="interface-element">
+            <h2 class="holographic-text section-title">PROFIL</h2>
+            <div class="scanner"></div>
+            <p style="margin-bottom: 15px;">
+                Élève-Ingénieur en génie informatique et Master 2 en intelligence artificielle, je suis passionné par les technologies de l'information et le développement de solutions logicielles innovantes.
+                Fort de compétences solides en programmation, en développement web et en intelligence artificielle, je mets mon expertise
+                au service de projets ambitieux pour créer des systèmes intelligents et performants.
+            </p>
 
-    <h3 class="section-title">COMPÉTENCES TECHNIQUES</h3>
-    <div class="skill-container">
-        <div class="skill-name"><span>Développement</span> <span>88%</span></div>
-        <div class="skill-bar"><div class="skill-progress" data-value="88"></div></div>
+            <h3 class="section-title">COMPÉTENCES TECHNIQUES</h3>
+            <div class="skill-container">
+                <div class="skill-name"><span>Python</span> <span>80%</span></div>
+                <div class="skill-bar"><div class="skill-progress" data-value="80"></div></div>
 
-        <div class="skill-name"><span>Intelligence Artificielle</span> <span>85%</span></div>
-        <div class="skill-bar"><div class="skill-progress" data-value="85"></div></div>
+                <div class="skill-name"><span>Java/Spring</span> <span>85%</span></div>
+                <div class="skill-bar"><div class="skill-progress" data-value="85"></div></div>
 
-        <div class="skill-name"><span>Gestion de Projet</span> <span>75%</span></div>
-        <div class="skill-bar"><div class="skill-progress" data-value="75"></div></div>
+                <div class="skill-name"><span>Web (HTML/CSS/JS)</span> <span>88%</span></div>
+                <div class="skill-bar"><div class="skill-progress" data-value="88"></div></div>
 
-        <div class="skill-name"><span>Réseaux</span> <span>80%</span></div>
-        <div class="skill-bar"><div class="skill-progress" data-value="80"></div></div>
+                <div class="skill-name"><span>Intelligence Artificielle</span> <span>80%</span></div>
+                <div class="skill-bar"><div class="skill-progress" data-value="80"></div></div>
 
-        <div class="skill-name"><span>Programmation (Python, C++, Java)</span> <span>90%</span></div>
-        <div class="skill-bar"><div class="skill-progress" data-value="100"></div></div>
+                <div class="skill-name"><span>React/Angula</span> <span>70%</span></div>
+                <div class="skill-bar"><div class="skill-progress" data-value=70"></div></div>
 
-        <div class="skill-name"><span>Développement Web (React, Angular, Spring)</span> <span>85%</span></div>
-        <div class="skill-bar"><div class="skill-progress" data-value="85"></div></div>
+            </div>
 
-        <div class="skill-name"><span>Bases de données (Oracle, SQL Server)</span> <span>80%</span></div>
-        <div class="skill-bar"><div class="skill-progress" data-value="80"></div></div>
+            <h3 class="section-title">SOFT SKILLS</h3>
+            <div class="skill-container">
+                <div class="skill-name"><span>Travail d'équipe</span> <span>90%</span></div>
+                <div class="skill-bar"><div class="skill-progress" data-value="90"></div></div>
 
-        <div class="skill-name"><span>Unix & Administration</span> <span>75%</span></div>
-        <div class="skill-bar"><div class="skill-progress" data-value="75"></div></div>
-    </div>
+                <div class="skill-name"><span>Résolution de conflits</span> <span>85%</span></div>
+                <div class="skill-bar"><div class="skill-progress" data-value="85"></div></div>
 
-    <h3 class="section-title">SOFT SKILLS</h3>
-    <div class="skill-container">
-        <div class="skill-name"><span>Travail d'équipe</span> <span>90%</span></div>
-        <div class="skill-bar"><div class="skill-progress" data-value="90"></div></div>
+                <div class="skill-name"><span>Planification de projets</span> <span>80%</span></div>
+                <div class="skill-bar"><div class="skill-progress" data-value="80"></div></div>
 
-        <div class="skill-name"><span>Résolution de conflits</span> <span>85%</span></div>
-        <div class="skill-bar"><div class="skill-progress" data-value="85"></div></div>
-
-        <div class="skill-name"><span>Planification de projets</span> <span>80%</span></div>
-        <div class="skill-bar"><div class="skill-progress" data-value="80"></div></div>
-
-        <div class="skill-name"><span>Autonomie et prise d’initiative</span> <span>85%</span></div>
-        <div class="skill-bar"><div class="skill-progress" data-value="85"></div></div>
-    </div>
-</div>
+                <div class="skill-name"><span>Autonomie et prise d’initiative</span> <span>85%</span></div>
+                <div class="skill-bar"><div class="skill-progress" data-value="85"></div></div>
+            </div>
+        </div>
 
         <div id="nav-panel" class="interface-element">
             <div class="nav-button" data-section="experience">EXPÉRIENCE</div>
@@ -435,17 +489,10 @@
         Utilisez la souris pour explorer et cliquez sur les options pour plus d'informations.
     </div>
 
-<!--    <div id="status-bar">-->
-<!--        <div>SYS.STATUS: EN LIGNE</div>-->
-<!--        <div>MÉMOIRE: 96.32%</div>-->
-<!--        <div>SCAN.ENV: ACTIF</div>-->
-<!--        <div id="coordinates">X: 0.00 Y: 0.00 Z: 0.00</div>-->
-<!--    </div>-->
-
     <script>
-        // Données du CV - Personnalisées selon votre CV
+        // Données du CV
         const resumeData = {
-                  experience: [
+            experience: [
                 {
                     title: "Stage",
                     company: "Intelcom - TEMARA",
@@ -518,41 +565,39 @@
                     ]
                 }
             ],
-certifications: [
-    {
-        provider: "Oracle University",
-        certifications: [
-            "Java SE 17 Developer",
-            "Oracle Database Administration I"
-        ]
-    },
-    {
-        provider: "Coursera",
-        certifications: [
-            "Neural Networks and Deep Learning - DeepLearning.AI",
-            "Big Data with Spark and Hadoop - IBM",
-            "Containers w/ Docker, Kubernetes & OpenShift - IBM",
-            "Git and GitHub - Google",
-            "React Native - Meta",
-            "React Basics - Meta",
-            "Virtual Networks in Azure - Whizlabs",
-            "Java and Object-Oriented Programming - University of Michigan",
-            "Python Data Structures - University of Michigan",
-            "Spécialisation Python for Everybody - University of Michigan",
-            "Using Databases with Python - University of Michigan",
-            "Using Python to Access Web Data - University of Michigan",
-            "Programming for Everybody - University of Michigan",
-            "Python - University of Michigan",
-            "Leadership - HEC Paris",
-            "Unix System - Codio",
-            "Java and OOP - University of Pennsylvania",
-            "Software Engineering: Modeling Software Systems using UML - The Hong Kong University of Science and Technology",
-            "Building Scalable Java Microservices with Spring Boot and Spring Cloud - Google Cloud Skills Boost",
-
-        ]
-    }
-],
-
+            certifications: [
+                {
+                    provider: "Oracle University",
+                    certifications: [
+                        "Java SE 17 Developer",
+                        "Oracle Database Administration I"
+                    ]
+                },
+                {
+                    provider: "Coursera",
+                    certifications: [
+                        "Neural Networks and Deep Learning - DeepLearning.AI",
+                        "Big Data with Spark and Hadoop - IBM",
+                        "Containers w/ Docker, Kubernetes & OpenShift - IBM",
+                        "Git and GitHub - Google",
+                        "React Native - Meta",
+                        "React Basics - Meta",
+                        "Virtual Networks in Azure - Whizlabs",
+                        "Java and Object-Oriented Programming - University of Michigan",
+                        "Python Data Structures - University of Michigan",
+                        "Spécialisation Python for Everybody - University of Michigan",
+                        "Using Databases with Python - University of Michigan",
+                        "Using Python to Access Web Data - University of Michigan",
+                        "Programming for Everybody - University of Michigan",
+                        "Python - University of Michigan",
+                        "Leadership - HEC Paris",
+                        "Unix System - Codio",
+                        "Java and OOP - University of Pennsylvania",
+                        "Software Engineering: Modeling Software Systems using UML - The Hong Kong University of Science and Technology",
+                        "Building Scalable Java Microservices with Spring Boot and Spring Cloud - Google Cloud Skills Boost",
+                    ]
+                }
+            ],
             projects: [
                 {
                     title: "Détection des fake news en Python",
@@ -561,14 +606,13 @@ certifications: [
                     technologies: ["Python", "NLTK", "NewsAPI", "FuzzyWuzzy", "NLP"],
                     link: "#"
                 },
-               {
+                {
                     title: "Plateforme de gestion des ressources humaines en Java",
                     date: "2024",
                     description: "Développement d'une solution complète pour la gestion des employés, congés et recrutements, intégrant un système sécurisé d'authentification et d'autorisation basé sur Spring Security. La plateforme offre une interface utilisateur moderne, un tableau de bord interactif et des fonctionnalités avancées comme la gestion des rôles et la recherche filtrée.",
                     technologies: ["Java", "Spring Boot", "Spring Security", "JPA", "Hibernate", "SQL", "Thymeleaf", "Bootstrap"],
                     link: "#"
                 },
-
                 {
                     title: "Jeu interactif en Python",
                     date: "2023",
@@ -597,7 +641,6 @@ certifications: [
                     technologies: ["Python", "Scikit-Learn", "Pandas", "Random Forest", "SVM", "KNN", "ANOVA", "Machine Learning", "Data Science"],
                     link: "#"
                 },
-
                 {
                     title: "Simulation interactive en p5.js",
                     date: "2024",
@@ -627,14 +670,12 @@ certifications: [
                     link: "#"
                 },
             ],
-
             contact: {
                 email: "zakariakkaoui@gmail.com",
                 phone: "0771648181",
                 location: "3eme Base Aerienne Force Royale Air, KENITRA",
                 linkedin: "https://www.linkedin.com/in/zakaria-akkaoui-240936253/",
                 github: "https://github.com/Zakaria3000",
-
             }
         };
 
@@ -671,6 +712,8 @@ certifications: [
 
         // Animation d'initialisation de l'interface
         function initAnimation() {
+            const isMobile = window.innerWidth <= 768;
+
             const elements = [
                 document.getElementById('profile-panel'),
                 document.getElementById('nav-panel'),
@@ -686,18 +729,17 @@ certifications: [
                 });
             });
 
-            // Initialiser les animations des barres de compétences
-            document.querySelectorAll('.skill-progress').forEach(bar => {
-                gsap.to(bar, {
-                    width: `${bar.dataset.value}%`,
-                    duration: 1.5,
-                    delay: 0.7,
-                    ease: "power2.out"
+            if (!isMobile) {
+                document.querySelectorAll('.skill-progress').forEach(bar => {
+                    gsap.to(bar, {
+                        width: `${bar.dataset.value}%`,
+                        duration: 1.5,
+                        delay: 0.7,
+                        ease: "power2.out"
+                    });
                 });
-            });
-
-            // Créer des éléments holographiques en arrière-plan
-            createHolographicElements();
+                createHolographicElements();
+            }
         }
 
         // Créer des éléments holographiques décoratifs
@@ -717,12 +759,6 @@ certifications: [
             }
         }
 
-        // Mise à jour des coordonnées dans la barre de statut
-        function updateCoordinates(x, y, z) {
-            document.getElementById('coordinates').textContent =
-                `X: ${x.toFixed(2)} Y: ${y.toFixed(2)} Z: ${z.toFixed(2)}`;
-        }
-
         // Gestion des sections
         document.querySelectorAll('.nav-button').forEach(button => {
             button.addEventListener('click', () => {
@@ -736,7 +772,6 @@ certifications: [
             const detailPanel = document.getElementById('detail-panel');
             const detailContent = document.getElementById('detail-content');
 
-            // Définir le contenu selon la section
             let contentHTML = '';
 
             if (section === 'experience') {
@@ -800,51 +835,39 @@ certifications: [
                         </div>
                     `;
                 });
-                 } else if (section === 'contact') {
-                    const contact = resumeData.contact;
-                    contentHTML = `
-                        <h2 class="holographic-text section-title">CONTACT</h2>
-                        <div style="display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: center; margin-bottom: 20px;">
+            } else if (section === 'contact') {
+                const contact = resumeData.contact;
+                contentHTML = `
+                    <h2 class="holographic-text section-title">CONTACT</h2>
+                    <div style="display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: center; margin-bottom: 20px;">
+                        <strong><i class="fas fa-envelope"> </i> Email:</strong>
+                        <span><a href="mailto:${contact.email}" style="text-decoration: none; color: inherit;">${contact.email}</a></span>
+                        <strong><i class="fas fa-phone-alt"> </i> Téléphone:</strong>
+                        <span><a href="tel:${contact.phone}" style="text-decoration: none; color: inherit;">${contact.phone}</a></span>
+                        <strong><i class="fas fa-map-marker-alt"> </i> Localisation:</strong>
+                        <span>${contact.location}</span>
+                        <strong><i class="fab fa-linkedin"> </i> LinkedIn:</strong>
+                        <span><a href="${contact.linkedin}" target="_blank" style="text-decoration: none; color: inherit;">${contact.linkedin}</a></span>
+                        <strong><i class="fab fa-github"> </i> GitHub:</strong>
+                        <span><a href="${contact.github}" target="_blank" style="text-decoration: none; color: inherit;">${contact.github}</a></span>
+                    </div>
+                `;
+            } else if (section === 'certifications') {
+                contentHTML = `<h2 class="holographic-text section-title">CERTIFICATIONS</h2>`;
 
-                            <!-- Email avec icône -->
-                            <strong><i class="fas fa-envelope"> </i> Email:</strong>
-                            <span><a href="mailto:${contact.email}" style="text-decoration: none; color: inherit;">${contact.email}</a></span>
-
-                            <!-- Téléphone avec icône -->
-                            <strong><i class="fas fa-phone-alt"> </i> Téléphone:</strong>
-                            <span><a href="tel:${contact.phone}" style="text-decoration: none; color: inherit;">${contact.phone}</a></span>
-
-                            <!-- Localisation sans lien -->
-                            <strong><i class="fas fa-map-marker-alt"> </i> Localisation:</strong>
-                            <span>${contact.location}</span>
-
-                            <!-- LinkedIn avec icône -->
-                            <strong><i class="fab fa-linkedin"> </i> LinkedIn:</strong>
-                            <span><a href="${contact.linkedin}" target="_blank" style="text-decoration: none; color: inherit;">${contact.linkedin}</a></span>
-
-                            <!-- GitHub avec icône -->
-                            <strong><i class="fab fa-github"> </i> GitHub:</strong>
-                            <span><a href="${contact.github}" target="_blank" style="text-decoration: none; color: inherit;">${contact.github}</a></span>
+                resumeData.certifications.forEach(certification => {
+                    contentHTML += `
+                        <div style="margin-bottom: 25px;">
+                            <div class="detail-header">
+                                <h3>${certification.provider}</h3>
+                            </div>
+                            <ul class="detail-content" style="margin-left: 20px;">
+                                ${certification.certifications.map(cert => `<li>${cert}</li>`).join('')}
+                            </ul>
                         </div>
                     `;
-                } else if (section === 'certifications') {
-                    contentHTML = `<h2 class="holographic-text section-title">CERTIFICATIONS</h2>`;
-
-                    resumeData.certifications.forEach(certification => {
-                        contentHTML += `
-                            <div style="margin-bottom: 25px;">
-                                <div class="detail-header">
-                                    <h3>${certification.provider}</h3>
-                                </div>
-                                <ul class="detail-content" style="margin-left: 20px;">
-                                    ${certification.certifications.map(cert => `<li>${cert}</li>`).join('')}
-                                </ul>
-                            </div>
-                        `;
-                    });
-                }
-
-
+                });
+            }
 
             detailContent.innerHTML = contentHTML;
 
@@ -888,12 +911,10 @@ certifications: [
             const colors = new Float32Array(particleCount * 3);
 
             for (let i = 0; i < particleCount * 3; i += 3) {
-                // Position
                 positions[i] = (Math.random() - 0.5) * 100;
-                positions[i + 1] = (Math.random() - 0.5)
+                positions[i + 1] = (Math.random() - 0.5) * 100;
                 positions[i + 2] = (Math.random() - 0.5) * 100;
 
-                // Couleur
                 colors[i] = 0; // R
                 colors[i + 1] = Math.random() * 0.5 + 0.5; // G (cyan-bleu)
                 colors[i + 2] = Math.random() * 0.5 + 0.5; // B (cyan-bleu)
@@ -937,175 +958,86 @@ certifications: [
             scene.add(gridHelper);
 
             // Ajouter une seconde grille pour un effet de profondeur
-// Ajouter une seconde grille pour un effet de profondeur
-const gridHelper2 = new THREE.GridHelper(gridSize, gridDivisions / 2, 0x00ffff, 0x004444);
-gridHelper2.position.y = -25;
-scene.add(gridHelper2);
+            const gridHelper2 = new THREE.GridHelper(gridSize, gridDivisions / 2, 0x00ffff, 0x004444);
+            gridHelper2.position.y = -25;
+            scene.add(gridHelper2);
 
-// Ajouter quelques lignes verticales pour créer un effet de ville futuriste
-const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.3 });
+            // Ajouter quelques lignes verticales pour créer un effet de ville futuriste
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.3 });
 
-for (let i = 0; i < 20; i++) {
-    const height = Math.random() * 30 + 10;
-    const geometry = new THREE.BufferGeometry();
-    const x = (Math.random() - 0.5) * 80;
-    const z = (Math.random() - 0.5) * 80;
+            for (let i = 0; i < 20; i++) {
+                const height = Math.random() * 30 + 10;
+                const geometry = new THREE.BufferGeometry();
+                const x = (Math.random() - 0.5) * 80;
+                const z = (Math.random() - 0.5) * 80;
 
-    const positions = new Float32Array([
-        x, -20, z,
-        x, -20 + height, z
-    ]);
+                const positions = new Float32Array([
+                    x, -20, z,
+                    x, -20 + height, z
+                ]);
 
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    const line = new THREE.Line(geometry, lineMaterial);
-    scene.add(line);
-}
-}
-
-// Animation de la scène
-function animate() {
-    requestAnimationFrame(animate);
-
-    // Rotation lente des particules
-    particles.rotation.y += 0.001;
-    particles.rotation.x += 0.0005;
-
-    // Mouvement ondulant des particules
-    const positions = particles.geometry.attributes.position.array;
-    const time = Date.now() * 0.0001;
-
-    for (let i = 0; i < positions.length; i += 3) {
-        positions[i + 1] += Math.sin(time + positions[i] * 0.1) * 0.01;
-    }
-
-    particles.geometry.attributes.position.needsUpdate = true;
-
-    renderer.render(scene, camera);
-}
-
-// Gestion du redimensionnement de la fenêtre
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-}
-
-// Interaction avec la souris
-function onMouseMove(event) {
-    const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-    const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-
-    // Mouvement de caméra subtil suivant la souris
-    gsap.to(camera.position, {
-        x: mouseX * 3,
-        y: mouseY * 3,
-        duration: 1
-    });
-
-    // Rotation du système de particules
-    gsap.to(particles.rotation, {
-        x: mouseY * 0.1,
-        y: mouseX * 0.1,
-        duration: 1
-    });
-
-    // Mise à jour des coordonnées dans la barre de statut
-    updateCoordinates(mouseX * 10, mouseY * 10, camera.position.z);
-}
-
-// Personnalisation du CV
-function customizeCV(data) {
-    // Mise à jour des informations du profil
-    document.querySelector('#profile-panel p').textContent = data.profileDescription;
-
-    // Mise à jour des compétences
-    if (data.skills) {
-        const skillContainer = document.querySelector('.skill-container');
-        skillContainer.innerHTML = '';
-
-        data.skills.forEach(skill => {
-            const skillHTML = `
-                <div class="skill-name">
-                    <span>${skill.name}</span>
-                    <span>${skill.value}%</span>
-                </div>
-                <div class="skill-bar">
-                    <div class="skill-progress" data-value="${skill.value}"></div>
-                </div>
-            `;
-            skillContainer.innerHTML += skillHTML;
-        });
-    }
-
-    // Mise à jour des données d'expérience, formation, etc.
-    if (data.experience) resumeData.experience = data.experience;
-    if (data.education) resumeData.education = data.education;
-    if (data.projects) resumeData.projects = data.projects;
-    if (data.contact) resumeData.contact = data.contact;
-}
-
-// Initialisation
-document.addEventListener('DOMContentLoaded', () => {
-    // Commencer le chargement
-    simulateLoading();
-
-    // Initialiser Three.js
-    initThree();
-
-    // Exemple de personnalisation (à remplacer par vos données)
-const myData = {
-    profileDescription: `
-        Akkaoui Zakaria : Élève-Ingénieur en génie informatique et Master 2 en intelligence artificielle, je suis passionné par les technologies de l'information et le développement de solutions logicielles innovantes.
-        Fort de compétences solides en programmation, en développement web et en intelligence artificielle, je mets mon expertise au service de projets ambitieux pour créer des systèmes intelligents et performants.
-    `,
-        skills: [
-            { name: "Python", value: 80 },
-            { name: "Java/Spring", value: 85 },
-            { name: "Web (HTML/CSS/JS)", value: 88 },
-            { name: "Intelligence Artificielle", value: 80 },
-            { name: "React/Angular", value: 75 }
-        ],
-    softSkills: [
-        { name: "Travail d'équipe", value: 90 },
-        { name: "Résolution de conflits", value: 85 },
-        { name: "Planification de projets", value: 80 },
-        { name: "Autonomie et prise d’initiative", value: 85 }
-    ]
-};
-
-    // Appliquer la personnalisation
-    customizeCV(myData);
-});
-
-// Ajout d'effets sonores pour l'interaction (optionnel)
-function playUISound(type) {
-    // Implémentation future d'effets sonores
-    console.log(`Playing sound: ${type}`);
-}
-
-// Effet de scan holographique (optionnel)
-function triggerScanEffect() {
-    const scanEffect = document.createElement('div');
-    scanEffect.className = 'scanner';
-    document.body.appendChild(scanEffect);
-
-    setTimeout(() => {
-        document.body.removeChild(scanEffect);
-    }, 2000);
-}
-        // Gestion du bouton d'entrée
-document.getElementById('enter-button').addEventListener('click', () => {
-    const welcomeMessage = document.getElementById('welcome-message');
-    gsap.to(welcomeMessage, {
-        opacity: 0,
-        scale: 0.9,
-        duration: 0.5,
-        onComplete: () => {
-            welcomeMessage.style.display = 'none';
-            initAnimation();
+                geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                const line = new THREE.Line(geometry, lineMaterial);
+                scene.add(line);
+            }
         }
-    });
-});
+
+        // Animation de la scène
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotation lente des particules
+            particles.rotation.y += 0.001;
+            particles.rotation.x += 0.0005;
+
+            // Mouvement ondulant des particules
+            const positions = particles.geometry.attributes.position.array;
+            const time = Date.now() * 0.0001;
+
+            for (let i = 0; i < positions.length; i += 3) {
+                positions[i + 1] += Math.sin(time + positions[i] * 0.1) * 0.01;
+            }
+
+            particles.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        }
+
+        // Gestion du redimensionnement de la fenêtre
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // Interaction avec la souris
+        function onMouseMove(event) {
+            const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            // Mouvement de caméra subtil suivant la souris
+            gsap.to(camera.position, {
+                x: mouseX * 3,
+                y: mouseY * 3,
+                duration: 1
+            });
+
+            // Rotation du système de particules
+            gsap.to(particles.rotation, {
+                x: mouseY * 0.1,
+                y: mouseX * 0.1,
+                duration: 1
+            });
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            // Commencer le chargement
+            simulateLoading();
+
+            // Initialiser Three.js
+            initThree();
+        });
     </script>
 </body>
 </html>
