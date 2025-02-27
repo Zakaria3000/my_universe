@@ -8,6 +8,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <audio id="background-music" loop autoplay>
+    <source src="./soundtrack.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
+
+    <button id="music-toggle" style="position: fixed; bottom: 20px; right: 20px; background: rgba(0, 20, 40, 0.7); border: 1px solid #0ff; color: #0ff; padding: 10px; border-radius: 5px; cursor: pointer; box-shadow: 0 0 15px rgba(0, 255, 255, 0.3); backdrop-filter: blur(5px); z-index: 1000;">
+        <i class="fas fa-volume-up"></i>
+    </button>
     <style>
         /* Styles existants */
         * {
@@ -408,7 +416,35 @@
                 height: 4px;
             }
         }
-    </style>
+        #music-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 20, 40, 0.7);
+            border: 1px solid #0ff;
+            color: #0ff;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+
+        #music-toggle:hover {
+            background: rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        #music-prompt {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            color: #0ff;
+            font-size: 14px;
+            z-index: 1000;
+        }
+            </style>
 </head>
 <body>
     <div id="loading-screen">
@@ -1038,6 +1074,69 @@
             // Initialiser Three.js
             initThree();
         });
+document.addEventListener('DOMContentLoaded', () => {
+    const backgroundMusic = document.getElementById('background-music');
+    const musicToggleButton = document.getElementById('music-toggle');
+    // Variable pour suivre si la musique a été intentionnellement mise en pause
+    let manuallyPaused = false;
+
+    // Attempt to play the music automatically
+    const playMusic = () => {
+        if (manuallyPaused) return; // Ne pas jouer si l'utilisateur a manuellement mis en pause
+
+        backgroundMusic.play()
+            .then(() => {
+                console.log("Music is playing.");
+                musicToggleButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+            })
+            .catch(error => {
+                console.log("Autoplay was prevented. User interaction is required to start the music.");
+                showMusicPrompt();
+            });
+    };
+
+    // Function to show a prompt if autoplay is blocked
+    const showMusicPrompt = () => {
+        const musicPrompt = document.createElement('div');
+        musicPrompt.id = 'music-prompt';
+        musicPrompt.style.position = 'fixed';
+        musicPrompt.style.bottom = '60px';
+        musicPrompt.style.right = '20px';
+        musicPrompt.style.color = '#0ff';
+        musicPrompt.style.fontSize = '14px';
+        musicPrompt.style.zIndex = '1000';
+        document.body.appendChild(musicPrompt);
+
+        setTimeout(() => {
+            musicPrompt.remove();
+        }, 5000);
+    };
+
+    // Try to play music when the page loads
+    playMusic();
+
+    // Toggle mute/unmute on button click
+    musicToggleButton.addEventListener('click', () => {
+        if (backgroundMusic.paused) {
+            manuallyPaused = false;
+            backgroundMusic.play();
+            musicToggleButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+        } else {
+            manuallyPaused = true;
+            backgroundMusic.pause();
+            musicToggleButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        }
+    });
+
+    // Start music on any user interaction if autoplay is blocked
+    // Mais seulement si elle n'a jamais été jouée ou si l'utilisateur n'a pas manuellement mis en pause
+    document.body.addEventListener('click', () => {
+        // Vérifier si le son n'a jamais été joué (à cause des restrictions d'autoplay)
+        if (backgroundMusic.paused && !manuallyPaused) {
+            playMusic();
+        }
+    });
+});
     </script>
 </body>
 </html>
