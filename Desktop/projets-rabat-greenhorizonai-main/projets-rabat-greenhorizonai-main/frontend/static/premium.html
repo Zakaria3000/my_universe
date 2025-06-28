@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TerrainFinder Premium - Analyses Avancées</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <style>
+        /* Reset et Variables CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+
+            --primary-color: #d32f2f; /* Rouge marocain */
+            --primary-hover: #b71c1c; /* Rouge plus foncé */
+            --primary-light: #ffebee; /* Rouge très clair */
+            --secondary-color: #2e7d32; /* Vert marocain */
+            --accent-color: #ff6f00; /* Orange doré */
+            --accent-hover: #e65100; /* Orange plus foncé */
+            --success-color: #388e3c; /* Vert succès */
+            --bleu: #1916f2;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            --background-color: #ffffff;
+            --surface-color: #f8fafc;
+            --surface-hover: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --premium-gold: #f59e0b;
+            --premium-gradient: linear-gradient(135deg, #f59e0b, #d97706);
+            --premium-dark: #92400e;
+            --premium-light: #fef3c7;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gold-primary: #d4af37;
+            --gold-secondary: #b8860b;
+            --gold-light: #f4e4bc;
+            --gold-dark: #8b7355;
+            --gold-gradient: linear-gradient(135deg, #ffd700 0%, #d4af37 50%, #b8860b 100%);
+            --gold-gradient-reverse: linear-gradient(135deg, #b8860b 0%, #d4af37 50%, #ffd700 100%);
+            --premium-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+            --premium-shadow-hover: 0 12px 40px rgba(212, 175, 55, 0.4);
+            --premium-glow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            overflow-x: hidden;
+        }
+
+
+        .icon {
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        .icon-lg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .icon-xl {
+            width: 40px;
+            height: 40px;
+        }
+        .logo .icon {
+            color: var(--primary-color);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            max-width: 1700px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+
+        /* Hero Premium */
+.hero-premium {
+   height: 100vh; /* Couvre toute la hauteur de l'écran */
+   padding: 0 20px 80px; /* Garde le padding horizontal et bottom */
+   background: var(--premium-gradient);
+   color: white;
+   text-align: center;
+   position: relative;
+   overflow: hidden;
+   background-image: url('./static/images/img_9.png');
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+   image-rendering: -webkit-optimize-contrast;
+   image-rendering: crisp-edges;
+   display: flex;
+   flex-direction: column;
+   justify-content: center; /* Centre le contenu verticalement */
+   align-items: center; /* Centre le contenu horizontalement */
+}
+
+.hero-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.25); /* overlay semi-transparent */
+    z-index: 1; /* Assure que l'overlay est au-dessus de l'image */
+}
+
+/* Assure que le contenu est au-dessus de l'overlay */
+.hero-premium > * {
+    position: relative;
+    z-index: 2;
+}
+
+       .hero-premium-container {
+    max-width: 1200px; /* Augmenté de 800px à 1000px */
+    margin: 0 auto;
+    padding: 0 2rem; /* Augmenté de 1.5rem à 2rem */
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.premium-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem; /* Augmenté de 0.5rem à 0.75rem */
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.75rem 1.5rem; /* Augmenté le padding */
+    border-radius: var(--radius-xl); /* Plus arrondi */
+    font-size: 1.5rem; /* Augmenté de 0.875rem à 1rem */
+    font-weight: 600;
+    margin-bottom: 2rem; /* Augmenté de 1.5rem à 2rem */
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.premium-badge:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.hero-premium h1 {
+    font-size: 4rem; /* Augmenté de 3rem à 4rem */
+    font-weight: 800;
+    margin-bottom: 1.5rem; /* Augmenté de 1rem à 1.5rem */
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    text-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+}
+
+.hero-premium p {
+    font-size: 1.5rem; /* Augmenté de 1.25rem à 1.5rem */
+    opacity: 0.95;
+    margin-bottom: 2.5rem; /* Augmenté de 2rem à 2.5rem */
+    color: white;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+    font-weight: 450;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border-radius: var(--radius-xl); /* Plus arrondi */
+}
+
+/* Style responsive pour les petits écrans */
+@media (max-width: 768px) {
+    .hero-premium-container {
+        max-width: 90%;
+        padding: 0 1.5rem;
+    }
+
+    .hero-premium h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-premium p {
+        font-size: 1.125rem;
+    }
+
+    .premium-badge {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+    }
+}
+     /* Premium Features Preview */
+.premium-features-preview {
+   padding: 6rem 0;
+   background: linear-gradient(135deg, #FEFEFE 0%, #F8F8F8 50%, #F5F5F5 100%);
+   position: relative;
+   overflow: hidden;
+}
+
+.premium-features-preview::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+               radial-gradient(circle at 70% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+   pointer-events: none;
+}
+
+.features-preview-container {
+   max-width: 1200px;
+   margin: 0 auto;
+   padding: 0 1.5rem;
+}
+
+.section-header {
+   text-align: center;
+   margin-bottom: 3rem;
+}
+
+.section-header h2 {
+   font-size: 2.5rem;
+   font-weight: 700;
+   margin-bottom: 1rem;
+   background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-color) 100%);
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+   background-clip: text;
+   text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.section-header p {
+   font-size: 1.25rem;
+   color: #4A5568;
+   max-width: 600px;
+   margin: 0 auto;
+}
+
+.preview-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+   gap: 2rem;
+}
+
+.preview-card {
+   background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+   padding: 1.5rem;
+   border-radius: var(--radius-xl);
+   box-shadow: var(--premium-shadow);
+   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+   border: 2px solid transparent;
+   position: relative;
+   overflow: hidden;
+}
+
+.preview-card::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   height: 4px;
+   background: var(--gold-gradient);
+}
+
+.preview-card::after {
+   content: '';
+   position: absolute;
+   top: -2px;
+   left: -2px;
+   right: -2px;
+   bottom: -2px;
+   background: var(--gold-gradient);
+   border-radius: var(--radius-xl);
+   z-index: -1;
+   opacity: 0;
+   transition: opacity 0.4s ease;
+}
+
+.preview-card:hover {
+   transform: translateY(-10px) scale(1.02);
+   box-shadow: var(--premium-shadow-hover), var(--premium-glow);
+}
+
+.preview-card:hover::after {
+   opacity: 1;
+}
+
+.preview-icon {
+   width: 70px;
+   height: 70px;
+   background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-color) 100%);
+   border-radius: var(--radius-lg);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   color: white;
+   font-size: 1.75rem;
+   margin-bottom: 1.5rem;
+   position: relative;
+   box-shadow: 0 8px 16px rgba(212, 175, 55, 0.3);
+}
+
+.preview-icon::before {
+   content: '';
+   position: absolute;
+   top: -2px;
+   left: -2px;
+   right: -2px;
+   bottom: -2px;
+   background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-color) 100%);
+   border-radius: var(--radius-lg);
+   z-index: -1;
+   animation: rotate 4s linear infinite;
+}
+
+.preview-icon i {
+   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.preview-card h3 {
+   font-size: 1.5rem;
+   font-weight: 700;
+   margin-bottom: 1rem;
+   color: var(--text-primary);
+}
+
+.preview-card p {
+   color: var(--text-secondary);
+   line-height: 1.7;
+   margin-bottom: 1.5rem;
+}
+
+.preview-demo {
+   background: var(--surface-color);
+   border-radius: var(--radius-md);
+   padding: 1.25rem;
+   font-size: 0.875rem;
+   color: var(--text-muted);
+   border: 1px solid var(--border-color);
+   line-height: 1.6;
+}/* Pricing Section */
+        .pricing-section {
+            padding: 6rem 0;
+            background: white;
+        }
+
+        .pricing-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .pricing-card {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--premium-gold);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .pricing-card.featured::before {
+            content: 'Recommandé';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--premium-gradient);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .pricing-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--premium-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-period {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features .check {
+            color: var(--success-color);
+            font-weight: 700;
+        }
+
+        .pricing-features .cross {
+            color: var(--text-muted);
+        }
+
+        /* Payment Form */
+         .payment-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #FEFEFE 0%, #F8F8F8 50%, #F5F5F5 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .payment-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .payment-form {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .payment-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1rem;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary-color);
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary-color);
+            background: var(--primary-light);
+        }
+
+        .payment-method img {
+            height: 30px;
+            object-fit: contain;
+        }
+
+        .security-info {
+            background: rgba(248, 250, 252, 0.8);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .security-icon {
+            color: var(--success-color);
+            font-size: 1.25rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .btn-premium {
+            background: var(--premium-gradient);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            padding: 0.5rem;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--surface-color);
+            color: var(--text-primary);
+        }
+
+        /* Success/Error States */
+        .alert {
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .alert-success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .alert-warning {
+            background: #fefce8;
+            color: #ca8a04;
+            border: 1px solid #fef08a;
+        }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-premium h1 {
+                font-size: 2rem;
+            }
+
+            .preview-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-methods {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i data-lucide="map" class="icon icon-lg"></i> TerrainFinder
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/app">Application</a></li>
+                <li><a href="#pricing">Tarifs</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Premium -->
+    <section class="hero-premium">
+        <div class="hero-premium-container">
+            <div class="premium-badge animate-fade-in-up">
+                💎 Premium
+            </div>
+            <h1 class="animate-fade-in-up">Analyses Avancées & Insights Exclusifs</h1>
+            <p class="animate-fade-in-up">Accédez aux données de marché en temps réel, aux projections d'investissement et aux analyses approfondies pour maximiser vos investissements immobiliers.</p>
+        </div>
+    </section>
+
+    <!-- Premium Features Preview -->
+    <section class="premium-features-preview">
+        <div class="features-preview-container">
+            <div class="section-header">
+                <h2>Fonctionnalités Premium</h2>
+                <p>Découvrez les outils exclusifs qui vous donneront un avantage concurrentiel</p>
+            </div>
+
+            <div class="preview-grid">
+                <div class="preview-card animate-fade-in-up">
+                    <div class="preview-icon"><i data-lucide="trending-up"></i></div>
+                    <h3>Analyses de Marché</h3>
+                    <p>Tendances des prix, évolution du marché et projections sur 6 mois</p>
+                    <div class="preview-demo">
+                        📈 Prix moyen: 5,950 MAD/m² (+12.5% cette année)<br>
+                        🎯 Projection 6 mois: 6,400 MAD/m²
+                    </div>
+                </div>
+
+                <div class="preview-card animate-fade-in-up">
+                    <div class="preview-icon"><i data-lucide="target"></i></div>
+                    <h3>Opportunités d'Investissement</h3>
+                    <p>Zones à fort potentiel avec calcul du ROI et niveau de risque</p>
+                    <div class="preview-demo">
+                        🏗️ Tamesna: ROI 28% (Risque modéré)<br>
+                        🌟 Recommandation: Fortement conseillé
+                    </div>
+                </div>
+
+                <div class="preview-card animate-fade-in-up">
+                    <div class="preview-icon"><i data-lucide="map"></i></div>
+                    <h3>Analyse Régionale</h3>
+                    <p>Comparaison détaillée des prix et croissance par région</p>
+                    <div class="preview-demo">
+                        📍 Casablanca-Settat: 8,500 MAD/m² (+15.2%)<br>
+                        📍 Rabat-Salé: 7,200 MAD/m² (+8.7%)
+                    </div>
+                </div>
+
+                <div class="preview-card animate-fade-in-up">
+                    <div class="preview-icon"><i data-lucide="bell"></i></div>
+                    <h3>Alertes Intelligentes</h3>
+                    <p>Notifications personnalisées basées sur vos critères d'investissement</p>
+                    <div class="preview-demo">
+                        🚨 Nouveau terrain à Anfa: -15% sous le prix marché<br>
+                        ⏰ Alerte envoyée il y a 2 minutes
+                    </div>
+                </div>
+
+                <div class="preview-card animate-fade-in-up">
+                    <div class="preview-icon"><i data-lucide="file-text"></i></div>
+
+                    <h3>Rapports Détaillés</h3>
+                    <p>Rapports PDF personnalisés avec analyses complètes</p>
+                    <div class="preview-demo">
+                        📄 Rapport mensuel: 24 pages d'analyses<br>
+                        💾 Export Excel des données disponible
+                    </div>
+                </div>
+
+                <div class="preview-card animate-fade-in-up">
+                    <div class="preview-icon"><i data-lucide="brain-circuit"></i></div>
+                    <h3>IA Prédictive</h3>
+                    <p>Intelligence artificielle pour prédire les meilleures opportunités</p>
+                    <div class="preview-demo">
+                        🧠 Score IA: 92/100 pour ce terrain<br>
+                        🎯 Probabilité de plus-value: 85%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section" id="pricing">
+        <div class="pricing-container">
+            <div class="section-header">
+                <h2>Choisissez votre plan Premium</h2>
+                <p>Investissez dans votre succès avec nos analyses professionnelles</p>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card animate-fade-in-up">
+                    <div class="pricing-header">
+                        <h3>Premium</h3>
+                        <div class="pricing-price">299<span style="font-size: 1rem;">MAD</span></div>
+                        <div class="pricing-period">/mois</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Recherches illimitées</li>
+                        <li><span class="check">✓</span> Analyses de marché</li>
+                        <li><span class="check">✓</span> Alertes personnalisées</li>
+                        <li><span class="check">✓</span> Export des données</li>
+                        <li><span class="check">✓</span> Support prioritaire</li>
+                        <li><span class="check">✓</span> Rapports mensuels</li>
+                    </ul>
+                    <button class="btn btn-premium" onclick="selectPlan('premium')">
+                        Choisir Premium
+                    </button>
+                </div>
+
+                <div class="pricing-card featured animate-fade-in-up">
+                    <div class="pricing-header">
+                        <h3>Entreprise</h3>
+                        <div class="pricing-price">999<span style="font-size: 1rem;">MAD</span></div>
+                        <div class="pricing-period">/mois</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Tout du plan Premium</li>
+                        <li><span class="check">✓</span> API d'intégration</li>
+                        <li><span class="check">✓</span> Rapports personnalisés</li>
+                        <li><span class="check">✓</span> Comptes multiples (5)</li>
+                        <li><span class="check">✓</span> Formation dédiée</li>
+                        <li><span class="check">✓</span> Support 24/7</li>
+                    </ul>
+                    <button class="btn btn-premium" onclick="selectPlan('enterprise')">
+                        Choisir Entreprise
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Section -->
+    <section class="payment-section" id="payment">
+        <div class="payment-container">
+            <div class="section-header">
+                <h2>Finaliser votre abonnement</h2>
+                <p>Paiement sécurisé et activation immédiate</p>
+            </div>
+
+            <form class="payment-form" id="paymentForm">
+                <div id="alertContainer"></div>
+
+                <div class="form-group">
+                    <label>Plan sélectionné</label>
+                    <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--premium-light); border-radius: var(--radius-md);">
+                        <span style="font-size: 1.5rem;">💎</span>
+                        <div>
+                            <div style="font-weight: 700; color: var(--premium-dark);" id="selectedPlanName">Premium</div>
+                            <div style="font-size: 0.875rem; color: var(--text-secondary);" id="selectedPlanPrice">299 MAD/mois</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Adresse email *</label>
+                    <input type="email" id="email" name="email" required placeholder="votre@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="fullName">Nom complet *</label>
+                    <input type="text" id="fullName" name="fullName" required placeholder="Votre nom complet">
+                </div>
+
+                <div class="form-group">
+                    <label for="company">Entreprise (optionnel)</label>
+                    <input type="text" id="company" name="company" placeholder="Nom de votre entreprise">
+                </div>
+
+                <div class="form-group">
+                    <label>Méthode de paiement</label>
+                    <div class="payment-methods">
+                        <div class="payment-method selected" data-method="card">
+                            💳 Carte
+                        </div>
+                        <div class="payment-method" data-method="paypal">
+                            🅿️ PayPal
+                        </div>
+                        <div class="payment-method" data-method="bank">
+                            🏦 Virement
+                        </div>
+                    </div>
+                </div>
+
+                <div id="cardDetails">
+                    <div class="form-group">
+                        <label for="cardNumber">Numéro de carte *</label>
+                        <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expiryDate">Date d'expiration *</label>
+                            <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/AA" maxlength="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV *</label>
+                            <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="4">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardName">Nom sur la carte *</label>
+                        <input type="text" id="cardName" name="cardName" placeholder="Nom tel qu'il apparaît sur la carte">
+                    </div>
+                </div>
+
+                <div class="security-info">
+                    <span class="security-icon">🔒</span>
+                    <span>Paiement sécurisé SSL. Vos données sont protégées et ne sont jamais stockées.</span>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <span>J'accepte les <a href="#" style="color: var(--primary-color);">conditions d'utilisation</a> et la <a href="#" style="color: var(--primary-color);">politique de confidentialité</a></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-premium" id="submitBtn">
+                    <span id="submitText">Confirmer le paiement</span>
+                    <span id="submitSpinner" class="spinner" style="display: none;"></span>
+                </button>
+
+                <div style="text-align: center; margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary);">
+                    Annulation possible à tout moment • Facturation mensuelle • Support inclus
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🎉 Félicitations !</h3>
+                <button class="modal-close" onclick="closeModal('successModal')">&times;</button>
+            </div>
+            <div class="alert alert-success">
+                <span>✅</span>
+                <span>Votre abonnement Premium a été activé avec succès !</span>
+            </div>
+            <p>Vous avez maintenant accès à toutes les fonctionnalités Premium de TerrainFinder. Un email de confirmation a été envoyé à votre adresse.</p>
+            <div style="margin-top: 1.5rem;">
+                <a href="/dashboard" class="btn btn-primary">Accéder au Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+         lucide.createIcons();
+
+        // Variables globales
+        let selectedPlan = 'premium';
+        let selectedPaymentMethod = 'card';
+
+        // Sélection du plan
+        function selectPlan(plan) {
+            selectedPlan = plan;
+            const planNames = {
+                'premium': 'Premium',
+                'enterprise': 'Entreprise'
+            };
+            const planPrices = {
+                'premium': '299 MAD/mois',
+                'enterprise': '999 MAD/mois'
+            };
+
+            document.getElementById('selectedPlanName').textContent = planNames[plan];
+            document.getElementById('selectedPlanPrice').textContent = planPrices[plan];
+
+            // Scroll vers le formulaire de paiement
+            document.getElementById('payment').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Gestion des méthodes de paiement
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', function() {
+                // Retirer la sélection précédente
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+
+                // Ajouter la sélection actuelle
+                this.classList.add('selected');
+                selectedPaymentMethod = this.dataset.method;
+
+                // Afficher/masquer les détails de carte
+                const cardDetails = document.getElementById('cardDetails');
+                if (selectedPaymentMethod === 'card') {
+                    cardDetails.style.display = 'block';
+                } else {
+                    cardDetails.style.display = 'none';
+                }
+            });
+        });
+
+        // Formatage automatique des champs
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            if (formattedValue.length > 19) formattedValue = formattedValue.substr(0, 19);
+            e.target.value = formattedValue;
+        });
+
+        document.getElementById('expiryDate').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+        });
+
+        document.getElementById('cvv').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        });
+
+        // Validation du formulaire
+        function validateForm() {
+            const email = document.getElementById('email').value;
+            const fullName = document.getElementById('fullName').value;
+            const terms = document.getElementById('terms').checked;
+
+            if (!email || !fullName || !terms) {
+                showAlert('Veuillez remplir tous les champs obligatoires et accepter les conditions.', 'error');
+                return false;
+            }
+
+            if (selectedPaymentMethod === 'card') {
+                const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+                const expiryDate = document.getElementById('expiryDate').value;
+                const cvv = document.getElementById('cvv').value;
+                const cardName = document.getElementById('cardName').value;
+
+                if (!cardNumber || cardNumber.length < 13 || !expiryDate || !cvv || !cardName) {
+                    showAlert('Veuillez remplir tous les détails de la carte.', 'error');
+                    return false;
+                }
+
+                // Validation basique du numéro de carte (algorithme de Luhn simplifié)
+                if (!isValidCardNumber(cardNumber)) {
+                    showAlert('Numéro de carte invalide.', 'error');
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Validation du numéro de carte (algorithme de Luhn simplifié)
+        function isValidCardNumber(cardNumber) {
+            if (cardNumber.length < 13 || cardNumber.length > 19) return false;
+
+            let sum = 0;
+            let isEven = false;
+
+            for (let i = cardNumber.length - 1; i >= 0; i--) {
+                let digit = parseInt(cardNumber.charAt(i));
+
+                if (isEven) {
+                    digit *= 2;
+                    if (digit > 9) {
+                        digit -= 9;
+                    }
+                }
+
+                sum += digit;
+                isEven = !isEven;
+            }
+
+            return sum % 10 === 0;
+        }
+
+        // Affichage des alertes
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertClass = `alert-${type}`;
+            const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : '⚠️';
+
+            alertContainer.innerHTML = `
+                <div class="alert ${alertClass}">
+                    <span>${icon}</span>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            // Scroll vers l'alerte
+            alertContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            // Supprimer l'alerte après 5 secondes pour les succès
+            if (type === 'success') {
+                setTimeout(() => {
+                    alertContainer.innerHTML = '';
+                }, 5000);
+            }
+        }
+
+        // Simulation du processus de paiement
+        async function processPayment(formData) {
+            try {
+                const response = await fetch('/api/premium/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: formData.email,
+                        plan: selectedPlan,
+                        fullName: formData.fullName,
+                        company: formData.company,
+                        paymentMethod: selectedPaymentMethod
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Stocker le token premium dans le localStorage
+                    localStorage.setItem('premiumToken', result.token);
+                    localStorage.setItem('premiumPlan', result.plan);
+                    localStorage.setItem('premiumExpires', result.expires);
+
+                    return { success: true, data: result };
+                } else {
+                    return { success: false, error: result.message || 'Erreur lors du traitement du paiement' };
+                }
+            } catch (error) {
+                console.error('Erreur de paiement:', error);
+                return { success: false, error: 'Erreur de connexion. Veuillez réessayer.' };
+            }
+        }
+
+        // Gestion de la soumission du formulaire
+        document.getElementById('paymentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (!validateForm()) {
+                return;
+            }
+
+            // Afficher l'état de chargement
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            const submitSpinner = document.getElementById('submitSpinner');
+
+            submitBtn.classList.add('loading');
+            submitText.style.display = 'none';
+            submitSpinner.style.display = 'inline-block';
+            submitBtn.disabled = true;
+
+            // Collecter les données du formulaire
+            const formData = {
+                email: document.getElementById('email').value,
+                fullName: document.getElementById('fullName').value,
+                company: document.getElementById('company').value
+            };
+
+            // Simuler un délai de traitement
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // Traiter le paiement
+            const result = await processPayment(formData);
+
+            // Restaurer l'état du bouton
+            submitBtn.classList.remove('loading');
+            submitText.style.display = 'inline';
+            submitSpinner.style.display = 'none';
+            submitBtn.disabled = false;
+
+            if (result.success) {
+                showAlert('Paiement traité avec succès !', 'success');
+
+                // Afficher la modal de succès après un court délai
+                setTimeout(() => {
+                    document.getElementById('successModal').classList.add('show');
+                }, 1000);
+            } else {
+                showAlert(result.error, 'error');
+            }
+        });
+
+        // Gestion des modals
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        // Fermer les modals en cliquant à l'extérieur
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('show');
+                }
+            });
+        });
+
+        // Vérifier si l'utilisateur a déjà un abonnement premium
+        function checkExistingPremium() {
+            const premiumToken = localStorage.getItem('premiumToken');
+            const premiumExpires = localStorage.getItem('premiumExpires');
+
+            if (premiumToken && premiumExpires) {
+                const expiryDate = new Date(premiumExpires);
+                const now = new Date();
+
+                if (expiryDate > now) {
+                    showAlert('Vous avez déjà un abonnement Premium actif. Redirection vers le dashboard...', 'warning');
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 2000);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // Récupérer le plan depuis l'URL
+        function getPlanFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const plan = urlParams.get('plan');
+            if (plan && (plan === 'premium' || plan === 'enterprise')) {
+                selectPlan(plan);
+            }
+        }
+
+        // Animations au scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-fade-in-up');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            elements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                observer.observe(el);
+            });
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Vérifier l'abonnement existant
+            if (checkExistingPremium()) {
+                return;
+            }
+
+            // Récupérer le plan depuis l'URL
+            getPlanFromURL();
+
+            // Initialiser les animations
+            animateOnScroll();
+
+            // Ajouter des effets de hover aux cartes de pricing
+            document.querySelectorAll('.pricing-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('featured')) {
+                        this.style.transform = 'translateY(-10px) scale(1.02)';
+                    }
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('featured')) {
+                        this.style.transform = 'translateY(0) scale(1)';
+                    }
+                });
+            });
+        });
+
+        // Gestion des erreurs globales
+        window.addEventListener('error', function(e) {
+            console.error('Erreur JavaScript:', e.error);
+            showAlert('Une erreur inattendue s\'est produite. Veuillez rafraîchir la page.', 'error');
+        });
+
+        // Prévenir la soumission multiple du formulaire
+        let isSubmitting = false;
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            if (isSubmitting) {
+                e.preventDefault();
+                return false;
+            }
+            isSubmitting = true;
+
+            // Réinitialiser après 5 secondes
+            setTimeout(() => {
+                isSubmitting = false;
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
+

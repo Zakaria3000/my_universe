@@ -1,0 +1,10 @@
+pip install fastapi uvicorn beautifulsoup4 requests schedule
+
+
+
+Sélectionnez Run 'terrain_scraping_system'.
+PyCharm ouvrira une fenêtre Run en bas, affichant la sortie du script. Le script va d'abord effectuer le scraping et sauvegarder les données dans terrains_mubawab_improved.json et terrains_mubawab_improved.csv.
+
+
+
+python terrain_scraping_system.py --api-only

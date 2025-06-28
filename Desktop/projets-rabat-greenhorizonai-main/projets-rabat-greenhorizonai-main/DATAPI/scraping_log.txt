@@ -1,0 +1,14 @@
+[2025-06-28 14:25:04] === Démarrage du système de scraping de terrains ===
+[2025-06-28 14:25:04] Scraping initial...
+[2025-06-28 14:25:04] Début du scraping des terrains...
+[2025-06-28 14:25:27] Scraping terminé: 151 terrains récupérés
+[2025-06-28 14:25:27] Données sauvegardées dans terrains_mubawab_improved.json et terrains_mubawab_improved.csv
+[2025-06-28 14:25:27] Démarrage du serveur API...
+[2025-06-28 14:25:30] Serveur API démarré avec succès sur http://localhost:8000
+[2025-06-28 14:25:30] Système démarré. API disponible sur http://localhost:8000
+[2025-06-28 14:25:30] Appuyez sur Ctrl+C pour arrêter
+[2025-06-28 14:26:35] Démarrage du serveur API...
+[2025-06-28 14:26:38] Erreur lors du démarrage du serveur API
+[2025-06-28 14:27:30] Aucun serveur API en cours d'exécution
+[2025-06-28 14:33:19] Arrêt du système demandé par l'utilisateur
+[2025-06-28 14:33:19] Serveur API arrêté
